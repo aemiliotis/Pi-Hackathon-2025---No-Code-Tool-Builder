@@ -1,0 +1,76 @@
+Pi Hackathon 2025: Official Rules & Requirements Summary
+1. The Core Challenge
+· Theme: Build a Pi App that promotes the utility of Pi by encouraging and enabling people to engage with the ecosystem.
+· Focus: The theme is intentionally broad to encourage creativity. Your app can be any type of utility (e.g., tool, game, service, marketplace) as long as it provides real value and follows the rules.
+· Key Goal: Enhance Pi's utility in the Open Network era, making it accessible and useful for both existing Pioneers and new users who have never mined Pi.
+2. Eligibility & Team Rules
+· Who Can Participate: Developers and developers of all skill levels.
+· Team Size: No limit. Collaboration is encouraged. However, the final team member list must be submitted by the October 15 deadline.
+· KYC Requirement: All team members must pass Pi KYC to be eligible to receive prizes. This is a non-negotiable requirement.
+· Number of Submissions: Each developer can submit a maximum of 2 Mainnet apps to the hackathon.
+3. Submission Requirements (MANDATORY)
+To be considered, you must complete BOTH of these steps by the final deadline:
+A. Final Submission via Google Form
+· A dedicated form will be shared closer to the deadline.
+· It must include a link to a publicly available demo video.
+B. Final App Submission via Pi Developer Portal
+· Your app must be submitted through the official portal within the Pi Browser.
+· You must use the special hackathon code: hackathon25 to mark your project.
+· You must create and register a Mainnet app (even though it requires linking a Testnet version).
+· The app must be as complete as possible on the Developer Portal Checklist.
+4. The Demo Video (CRITICAL)
+· Length: Must be no longer than 3 minutes.
+· Content: The video must clearly cover:
+  · A short introduction of your app and its purpose.
+  · A clear walkthrough of your app’s functionality and user interface.
+  · An explanation of your target audience.
+  · The problem or need your app addresses.
+  · How Pi is integrated (e.g., payments, login, etc.).
+5. Technical & Compliance Rules
+Your app MUST adhere to the Mainnet Listing Requirements:
+· Professional UI: Fully functional with a clean, user-friendly interface.
+· Pi Authentication Only: Must use Pi's Authentication SDK. No email or social logins.
+· Pi-Only Transactions: All transactions must be in Pi. No other cryptocurrencies or fiat currencies.
+· No Trademark Violation: App name/URL cannot start with "pi" (e.g., pi-wallet.com is forbidden). Cannot misuse Pi's logo or brand colors.
+· Limit Data Collection: Only collect data essential for your app's function.
+· Avoid Redirection: Do not redirect users to external websites. The core experience must be within the Pi ecosystem.
+· Wallet Setup: While not required for the initial submission, you will need to complete wallet setup if you win to receive the prize.
+6. Judging Criteria
+Apps will be judged based on:
+1. Alignment with Mainnet Listing Guidelines (Compliance is essential).
+2. Pi Utility: How well it aligns with community needs and drives Pi usage.
+3. Technical Completeness & Innovation.
+4. UI/UX, Accessibility, and Ease of Navigation.
+5. Long-term Utility on the Pi Mainnet blockchain.
+6. Uniqueness and distinctive use cases.
+7. Important Timeline (2025)
+· August 15: Registration & Team Formation begins.
+· August 21: Hackathon officially begins.
+· September 19: Midpoint Check-In (Recommended but not mandatory).
+  · Submitting a progress form can make you eligible for additional mentorship and community exposure.
+· October 15: Final Submission Deadline.
+  · This is the hard deadline for both the Google Form and the Developer Portal submission.
+8. Resources You Must Use
+· Pi App Studio: For building app prototypes.
+· Brainstorm App: For sharing ideas, getting feedback, and finding teammates.
+· Developer Portal: For registering and managing your app.
+· Pi SDK & API: For integrating authentication and payments.
+· Pi Open Source (PiOS): Encouraged for building open-source projects.
+· Mainnet Listing Guidelines: The bible for your app's compliance.
+· PiNet: To create a shareable URL for your app (yourapp.pinet.com).
+9. Prize Pool
+· 🥇 1st Place: 75,000 Pi
+· 🥈 2nd Place: 45,000 Pi
+· 🥉 3rd Place: 15,000 Pi
+· 🏅 Honorable Mentions (up to 5 teams): 5,000 Pi each
+---
+Key Strategies to Win (Based on the Rules)
+1. Compliance is King: The first filter is whether your app meets the Mainnet Listing Requirements. A technically brilliant app that violates trademark rules will be disqualified.
+2. Think "Open Network": Your app should be designed to attract new users, not just serve existing Pioneers. This is a key goal for the judges.
+3. Leverage PiNet: Design your app to have a compelling "preview" experience on PiNet that makes non-users want to download the Pi Browser for the full functionality.
+4. Demo Video is Everything: The judges will likely watch hundreds of videos. Your 3-minute video must be incredibly clear, concise, and compelling. Show the user flow and highlight the Pi integration.
+5. Focus on Utility, Not Hype: The app must provide real, tangible value. How does it solve a problem or fill a need using Pi?
+6. Submit the Midpoint Check-In: This shows professionalism, allows for course correction based on feedback, and can get your app early visibility.
+By strictly following these rules and building a truly useful app, you significantly increase your chances of winning a share of the 160,000 Pi prize pool.
+
+build an app with fronend and backend, so that users can login (pi integration login) and create tools with front and backend without code, that can be executed pulicly (all in one app.py and index.html)

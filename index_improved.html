@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi No-Code Tool Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .user-info {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .tab-content {
+            background: white;
+            border-radius: 0 0 15px 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            min-height: 600px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .builder-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .field-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .field-item input,
+        .field-item select {
+            flex: 1;
+            margin: 0;
+        }
+
+        .preview-section {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .preview-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .tool-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .tool-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tool-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 10000;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .notification.error {
+            background-color: #e74c3c;
+        }
+
+        .notification.success {
+            background-color: #27ae60;
+        }
+
+        .notification.info {
+            background-color: #3498db;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .builder-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔧 Pi No-Code Tool Builder</h1>
+        <p>Create powerful tools without writing code - Powered by Pi Network</p>
+    </div>
+
+    <div class="container">
+        <div class="user-info">
+            <div id="login-section">
+                <h3>Welcome to Pi No-Code Tool Builder!</h3>
+                <p>Please log in with your Pi Network account to start building tools.</p>
+                <button class="btn" onclick="login()">🔐 Login with Pi Network</button>
+            </div>
+            
+            <div id="user-section" style="display: none;">
+                <h3>Welcome back!</h3>
+                <p>Logged in as: <span id="username"></span></p>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div id="main-app" style="display: none;">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('builder')">🔧 Tool Builder</button>
+                <button class="tab" onclick="showTab('my-tools')">📋 My Tools</button>
+                <button class="tab" onclick="showTab('explore')">🌟 Explore Tools</button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Tool Builder Tab -->
+                <div id="builder-tab" class="tab-pane active">
+                    <h2>Create a New Tool</h2>
+                    <div class="builder-layout">
+                        <div class="configuration-section">
+                            <h3>Tool Configuration</h3>
+                            
+                            <div class="form-group">
+                                <label for="tool-name">Tool Name</label>
+                                <input type="text" id="tool-name" placeholder="Enter tool name" onchange="updatePreview()">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tool-description">Description</label>
+                                <textarea id="tool-description" rows="3" placeholder="Describe what your tool does" onchange="updatePreview()"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tool-type">Tool Type</label>
+                                <select id="tool-type" onchange="updateToolType()">
+                                    <option value="form">📝 Form Tool</option>
+                                    <option value="calculator">🧮 Calculator</option>
+                                    <option value="converter">🔄 Unit Converter</option>
+                                    <option value="generator">📄 Text Generator</option>
+                                    <option value="survey">📊 Survey Tool</option>
+                                    <option value="quiz">🧠 Quiz Tool</option>
+                                    <option value="poll">🗳️ Poll Tool</option>
+                                    <option value="scheduler">📅 Event Scheduler</option>
+                                    <option value="tracker">📈 Progress Tracker</option>
+                                    <option value="validator">✅ Data Validator</option>
+                                </select>
+                            </div>
+
+                            <div id="form-fields-section">
+                                <h4>Form Fields</h4>
+                                <div id="fields-container"></div>
+                                <button class="btn" onclick="addField()">+ Add Field</button>
+                            </div>
+
+                            <div style="margin-top: 30px;">
+                                <button class="btn btn-success" onclick="saveTool()">💾 Save & Preview</button>
+                                <button class="btn" onclick="publishTool()">🚀 Publish Tool</button>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <h3>Live Preview</h3>
+                            <div id="tool-preview">
+                                <p>Configure your tool to see the preview here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Tools Tab -->
+                <div id="my-tools-tab" class="tab-pane">
+                    <h2>My Created Tools</h2>
+                    <div id="my-tools-list">
+                        <p>Loading your tools...</p>
+                    </div>
+                </div>
+
+                <!-- Explore Tools Tab -->
+                <div id="explore-tab" class="tab-pane">
+                    <h2>Explore Public Tools</h2>
+                    <div id="public-tools-list">
+                        <p>Loading public tools...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let formFields = [];
+        let currentTool = { id: null, type: 'form' };
+        let myTools = [];
+        let publicTools = [];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+        });
+
+        // UI Management
+        function updateUI() {
+            const loginSection = document.getElementById('login-section');
+            const userSection = document.getElementById('user-section');
+            const mainApp = document.getElementById('main-app');
+
+            if (currentUser) {
+                loginSection.style.display = 'none';
+                userSection.style.display = 'block';
+                mainApp.style.display = 'block';
+                document.getElementById('username').textContent = currentUser.username;
+                loadMyTools();
+                loadPublicTools();
+            } else {
+                loginSection.style.display = 'block';
+                userSection.style.display = 'none';
+                mainApp.style.display = 'none';
+            }
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+
+            // Load data if needed
+            if (tabName === 'my-tools') {
+                loadMyTools();
+            } else if (tabName === 'explore') {
+                loadPublicTools();
+            }
+        }
+
+        // API Functions with improved error handling
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+                
+                const response = await fetch(`/api${endpoint}`, options);
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: 'Network error' }));
+                    throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                showError(`API Error: ${error.message}`);
+                throw error;
+            }
+        }
+
+        async function login() {
+            try {
+                showLoading('Logging in...');
+                const result = await apiCall('/auth/login', 'POST', {
+                    username: 'PiUser169',
+                    pi_token: 'mock_pi_token_12345'
+                });
+                
+                if (result.success) {
+                    currentUser = result.user;
+                    updateUI();
+                    showSuccess('Successfully logged in with Pi Network!');
+                }
+            } catch (error) {
+                showError('Login failed. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function logout() {
+            try {
+                await apiCall('/auth/logout', 'POST');
+                currentUser = null;
+                updateUI();
+                showSuccess('Successfully logged out!');
+            } catch (error) {
+                // Even if logout fails on server, clear local state
+                currentUser = null;
+                updateUI();
+                showError('Logout completed (with warnings)');
+            }
+        }
+
+        async function loadMyTools() {
+            try {
+                const result = await apiCall('/tools/my');
+                myTools = result.tools || [];
+                displayMyTools();
+            } catch (error) {
+                myTools = [];
+                displayMyTools();
+                showError('Failed to load your tools. Please refresh the page.');
+            }
+        }
+
+        async function loadPublicTools() {
+            try {
+                const result = await apiCall('/tools/public');
+                publicTools = result.tools || [];
+                displayPublicTools();
+            } catch (error) {
+                publicTools = [];
+                displayPublicTools();
+                showError('Failed to load public tools. Please refresh the page.');
+            }
+        }
+
+        async function saveTool() {
+            try {
+                const toolData = {
+                    name: document.getElementById('tool-name').value.trim(),
+                    description: document.getElementById('tool-description').value.trim(),
+                    tool_type: document.getElementById('tool-type').value,
+                    fields_config: JSON.stringify(formFields)
+                };
+
+                // Validation
+                if (!toolData.name) {
+                    showError('Please enter a tool name');
+                    return;
+                }
+                
+                if (!toolData.description) {
+                    showError('Please enter a tool description');
+                    return;
+                }
+
+                showLoading('Saving tool...');
+                const result = await apiCall('/tools', 'POST', toolData);
+                
+                if (result.success) {
+                    currentTool.id = result.tool_id;
+                    showSuccess('Tool saved successfully!');
+                    await loadMyTools();
+                    
+                    // Clear form
+                    document.getElementById('tool-name').value = '';
+                    document.getElementById('tool-description').value = '';
+                    formFields = [];
+                    updateFormFieldsDisplay();
+                    updatePreview();
+                }
+            } catch (error) {
+                showError('Failed to save tool. Please check your input and try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function publishTool(toolId = null) {
+            try {
+                const id = toolId || currentTool.id;
+                if (!id) {
+                    showError('Please save the tool first before publishing');
+                    return;
+                }
+
+                showLoading('Publishing tool...');
+                const result = await apiCall(`/tools/${id}/publish`, 'POST');
+                
+                if (result.success) {
+                    showSuccess('Tool published successfully!');
+                    await loadMyTools();
+                    await loadPublicTools();
+                }
+            } catch (error) {
+                showError('Failed to publish tool. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteTool(toolId) {
+            if (!confirm('Are you sure you want to delete this tool?')) {
+                return;
+            }
+            
+            try {
+                showLoading('Deleting tool...');
+                const result = await apiCall(`/tools/${toolId}`, 'DELETE');
+                
+                if (result.success) {
+                    showSuccess('Tool deleted successfully!');
+                    await loadMyTools();
+                }
+            } catch (error) {
+                showError('Failed to delete tool. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Tool Building Functions
+        function updateToolType() {
+            const toolType = document.getElementById('tool-type').value;
+            currentTool.type = toolType;
+            
+            const formFieldsSection = document.getElementById('form-fields-section');
+            
+            if (toolType === 'form') {
+                formFieldsSection.style.display = 'block';
+            } else {
+                formFieldsSection.style.display = 'none';
+            }
+            
+            updatePreview();
+        }
+
+        function addField() {
+            const fieldId = 'field_' + Date.now();
+            const field = {
+                id: fieldId,
+                label: '',
+                type: 'text'
+            };
+            
+            formFields.push(field);
+            updateFormFieldsDisplay();
+        }
+
+        function removeField(fieldId) {
+            formFields = formFields.filter(field => field.id !== fieldId);
+            updateFormFieldsDisplay();
+            updatePreview();
+        }
+
+        function updateFormFieldsDisplay() {
+            const container = document.getElementById('fields-container');
+            container.innerHTML = '';
+            
+            formFields.forEach(field => {
+                const fieldDiv = document.createElement('div');
+                fieldDiv.className = 'field-item';
+                fieldDiv.innerHTML = `
+                    <input type="text" placeholder="Field Label" value="${field.label}" 
+                           onchange="updateFieldLabel('${field.id}', this.value)">
+                    <select onchange="updateFieldType('${field.id}', this.value)">
+                        <option value="text" ${field.type === 'text' ? 'selected' : ''}>Text Input</option>
+                        <option value="number" ${field.type === 'number' ? 'selected' : ''}>Number Input</option>
+                        <option value="email" ${field.type === 'email' ? 'selected' : ''}>Email Input</option>
+                        <option value="textarea" ${field.type === 'textarea' ? 'selected' : ''}>Text Area</option>
+                        <option value="select" ${field.type === 'select' ? 'selected' : ''}>Dropdown</option>
+                    </select>
+                    <button class="btn btn-danger" onclick="removeField('${field.id}')">Remove</button>
+                `;
+                container.appendChild(fieldDiv);
+            });
+        }
+
+        function updateFieldLabel(fieldId, label) {
+            const field = formFields.find(f => f.id === fieldId);
+            if (field) {
+                field.label = label;
+                updatePreview();
+            }
+        }
+
+        function updateFieldType(fieldId, type) {
+            const field = formFields.find(f => f.id === fieldId);
+            if (field) {
+                field.type = type;
+                updatePreview();
+            }
+        }
+
+        function updatePreview() {
+            const preview = document.getElementById('tool-preview');
+            const toolName = document.getElementById('tool-name').value || 'Untitled Tool';
+            const toolDescription = document.getElementById('tool-description').value || 'No description';
+            const toolType = document.getElementById('tool-type').value;
+            
+            let previewHtml = `
+                <div style="text-align: left;">
+                    <h3>${toolName}</h3>
+                    <p>${toolDescription}</p>
+                    <hr style="margin: 20px 0;">
+            `;
+
+            if (toolType === 'form') {
+                previewHtml += '<form>';
+                formFields.forEach(field => {
+                    if (field.label) {
+                        previewHtml += `
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">${field.label}</label>
+                        `;
+                        
+                        if (field.type === 'textarea') {
+                            previewHtml += `<textarea style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" rows="3"></textarea>`;
+                        } else if (field.type === 'select') {
+                            previewHtml += `
+                                <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                </select>
+                            `;
+                        } else {
+                            previewHtml += `<input type="${field.type}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">`;
+                        }
+                        
+                        previewHtml += '</div>';
+                    }
+                });
+                previewHtml += '<button type="submit" style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Submit</button>';
+                previewHtml += '</form>';
+            } else {
+                const toolDescriptions = {
+                    calculator: 'Enter mathematical expressions to calculate results',
+                    converter: 'Convert between different units (temperature, length, weight)',
+                    generator: 'Generate text using templates and variables',
+                    survey: 'Collect feedback and ratings from users',
+                    quiz: 'Create quizzes with scoring functionality',
+                    poll: 'Conduct polls and collect votes',
+                    scheduler: 'Schedule events and manage attendees',
+                    tracker: 'Track progress and activities',
+                    validator: 'Validate data formats (email, phone, URL)'
+                };
+                
+                previewHtml += `<p><strong>Tool Type:</strong> ${toolType.charAt(0).toUpperCase() + toolType.slice(1)}</p>`;
+                previewHtml += `<p>${toolDescriptions[toolType] || 'Custom tool functionality'}</p>`;
+                previewHtml += `<p><em>This tool will be fully functional when published.</em></p>`;
+            }
+
+            previewHtml += '</div>';
+            preview.innerHTML = previewHtml;
+        }
+
+        // Display Functions
+        function displayMyTools() {
+            const container = document.getElementById('my-tools-list');
+            
+            if (myTools.length === 0) {
+                container.innerHTML = '<p>You haven\'t created any tools yet. Start building your first tool!</p>';
+                return;
+            }
+
+            let html = '';
+            myTools.forEach(tool => {
+                html += `
+                    <div class="tool-card">
+                        <h3>${tool.name}</h3>
+                        <p>${tool.description}</p>
+                        <p><strong>Type:</strong> ${tool.tool_type} | <strong>Status:</strong> ${tool.is_published ? 'Published' : 'Draft'}</p>
+                        <div class="tool-actions">
+                            <button class="btn" onclick="viewTool(${tool.id})">👁️ View</button>
+                            ${!tool.is_published ? `<button class="btn btn-success" onclick="publishTool(${tool.id})">🚀 Publish</button>` : ''}
+                            <button class="btn btn-danger" onclick="deleteTool(${tool.id})">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function displayPublicTools() {
+            const container = document.getElementById('public-tools-list');
+            
+            if (publicTools.length === 0) {
+                container.innerHTML = '<p>No public tools available yet. Be the first to publish a tool!</p>';
+                return;
+            }
+
+            let html = '';
+            publicTools.forEach(tool => {
+                html += `
+                    <div class="tool-card">
+                        <h3>${tool.name}</h3>
+                        <p>${tool.description}</p>
+                        <p><strong>Type:</strong> ${tool.tool_type} | <strong>Creator:</strong> ${tool.creator_username}</p>
+                        <div class="tool-actions">
+                            <button class="btn" onclick="viewTool(${tool.id})">🚀 Use Tool</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function viewTool(toolId) {
+            window.open(`/tool/${toolId}`, '_blank');
+        }
+
+        // Utility functions for user feedback
+        function showError(message) {
+            showNotification(message, 'error');
+        }
+
+        function showSuccess(message) {
+            showNotification(message, 'success');
+        }
+
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existing = document.querySelector('.notification');
+            if (existing) {
+                existing.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function showLoading(message) {
+            showNotification(`<span class="loading"></span> ${message}`, 'info');
+        }
+
+        function hideLoading() {
+            const existing = document.querySelector('.notification');
+            if (existing) {
+                existing.remove();
+            }
+        }
+
+        // Initialize tool type on page load
+        updateToolType();
+    </script>
+</body>
+</html>
+
