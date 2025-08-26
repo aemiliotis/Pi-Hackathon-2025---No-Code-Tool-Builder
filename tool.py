@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, render_template_string
-from tool import Tool, ToolExecution, db
+from src.models.tool import Tool, ToolExecution, db
 import json
 from datetime import datetime
 
