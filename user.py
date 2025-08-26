@@ -1,9 +1,10 @@
 from flask import Blueprint, jsonify, request
-from user import User, db
+from src.models.user import User
+from src.models.tool import db # Import db from a common location
 
-user_bp = Blueprint('user', __name__)
+user_bp = Blueprint("user", __name__)
 
-@user_bp.route('/auth/login', methods=['POST'])
+@user_bp.route("/auth/login", methods=["POST"])
 def login():
     """Mock Pi Network login"""
     try:
