@@ -35,7 +35,7 @@ redis==4.5.5  # Caching
 alembic==1.11.1  # Migrations
 
 ### Machine Learning Core ###
-tensorflow==2.10.1
+##tensorflow==2.20.0
 tflite-runtime==2.10.0
 protobuf==3.19.6  # TF compatibility
 onnxruntime==1.15.1
