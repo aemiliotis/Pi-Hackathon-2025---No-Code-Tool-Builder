@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi No-Code Tool Builder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4a6cf7;
+            --secondary: #6c757d;
+            --success: #198754;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #0dcaf0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --background: #f4f7fe;
+            --card-bg: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --border: #e2e8f0;
+            --pi-primary: #14bca8;
+            --pi-secondary: #0d8e7e;
+            --trigger-color: #e83e8c;
+            --app-color: #4a6cf7;
+            --data-color: #20c997;
+            --logic-color: #fd7e14;
+            --file-color: #6f42c1;
+            --utility-color: #6c757d;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, var(--primary), #3a56d4);
+            color: white;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            font-weight: 300;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .menu {
+            flex: 1;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid white;
+        }
+
+        .user-section {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: var(--card-bg);
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--light);
+            border-radius: 20px;
+            padding: 5px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: 8px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a56d4;
+        }
+
+        .btn-pi {
+            background-color: var(--pi-primary);
+            color: white;
+        }
+
+        .btn-pi:hover {
+            background-color: var(--pi-secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--light);
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Workflow Editor */
+        .workflow-editor {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .editor-header {
+            padding: 15px 25px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .editor-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .node-palette {
+            width: 250px;
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .node-category {
+            margin-bottom: 20px;
+        }
+
+        .node-category-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .node-category-title i {
+            font-size: 14px;
+        }
+
+        .node-item {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: move;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .node-item:hover {
+            background-color: var(--light);
+        }
+
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path d="M0 10L20 10M10 0L10 20" stroke="%23e2e8f0" stroke-width="0.5"/></svg>');
+            overflow: hidden;
+        }
+
+        .canvas {
+            width: 5000px;
+            height: 5000px;
+            position: relative;
+            transform-origin: 0 0;
+        }
+
+        .node {
+            position: absolute;
+            width: 200px;
+            background-color: var(--card-bg);
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            cursor: move;
+            user-select: none;
+            z-index: 10;
+        }
+
+        .node-header {
+            padding: 8px 12px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .node-content {
+            padding: 12px;
+            font-size: 13px;
+        }
+
+        .node-io {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .input-point, .output-point {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            cursor: crosshair;
+        }
+
+        .output-point {
+            background-color: var(--success);
+        }
+
+        .connection {
+            position: absolute;
+            background-color: var(--primary);
+            transform-origin: 0 0;
+            z-index: 5;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Node type colors */
+        .node-trigger .node-header { background-color: var(--trigger-color); }
+        .node-app .node-header { background-color: var(--app-color); }
+        .node-data .node-header { background-color: var(--data-color); }
+        .node-logic .node-header { background-color: var(--logic-color); }
+        .node-file .node-header { background-color: var(--file-color); }
+        .node-utility .node-header { background-color: var(--utility-color); }
+        .node-pi .node-header { background-color: var(--pi-primary); }
+
+        /* Pi Connect Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .pi-connect-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .pi-option {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pi-option:hover {
+            border-color: var(--pi-primary);
+            background-color: rgba(20, 188, 168, 0.05);
+        }
+
+        .pi-option-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 10px;
+            }
+            .main-content {
+                width: 100%;
+            }
+            .search-bar {
+                width: 200px;
+            }
+        }
+
+        /* Utility Classes */
+        .text-sm {
+            font-size: 14px;
+        }
+
+        .text-xs {
+            font-size: 12px;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: var(--warning);
+            color: black;
+        }
+
+        .badge-pi {
+            background-color: var(--pi-primary);
+            color: white;
+        }
+
+        /* Login Form */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary), #3a56d4);
+            padding: 20px;
+        }
+
+        .login-form {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #3a56d4;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .pi-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--pi-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .pi-login-btn:hover {
+            background-color: var(--pi-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen (Initial View) -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-form">
+            <h2>Sign In to Pi No-Code Builder</h2>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="login-btn">Sign In</button>
+            <button class="pi-login-btn" id="piLoginBtn">
+                <i class="fab fa-google"></i> Sign In with Pi Network
+            </button>
+            <div class="login-footer">
+                Don't have an account? <a href="#" style="color: var(--primary);">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pi Connect Modal -->
+    <div id="piConnectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fab fa-pi"></i> Connect to Pi Network</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="pi-connect-options">
+                <div class="pi-option" id="piAuthOption">
+                    <div class="pi-option-header">
+                        <i class="fas fa-user-check"></i>
+                        <h3>Pi Authentication</h3>
+                    </div>
+                    <p>Authenticate users with Pi Network for secure login</p>
+                </div>
+                <div class="pi-option" id="piPaymentOption">
+                    <div class="pi-option-header">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h3>Pi Payments</h3>
+                    </div>
+                    <p>Accept payments in Pi cryptocurrency</p>
+                </div>
+                <div class="pi-option" id="piDataOption">
+                    <div class="pi-option-header">
+                        <i class="fas fa-database"></i>
+                        <h3>Pi Blockchain Data</h3>
+                    </div>
+                    <p>Read and write data to the Pi Blockchain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application (Hidden Initially) -->
+    <div id="appContainer" class="container" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-cubes"></i> Pi Builder <span>v1.0</span></h1>
+            </div>
+            <div class="menu">
+                <div class="menu-item active">
+                    <i class="fas fa-home"></i> Dashboard
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-project-diagram"></i> Workflows
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-plug"></i> Integrations
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-database"></i> Data Sources
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-history"></i> Execution History
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-cog"></i> Settings
+                </div>
+            </div>
+            <div class="user-section">
+                <div class="user-avatar">JD</div>
+                <div class="user-info">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Pro Plan</div>
+                </div>
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search workflows, tools...">
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-question-circle"></i> Help
+                    </button>
+                    <button class="btn btn-pi" id="connectPiBtn">
+                        <i class="fab fa-pi"></i> Connect Pi
+                    </button>
+                    <button class="btn btn-primary" id="newWorkflowBtn">
+                        <i class="fas fa-plus"></i> New Workflow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard View -->
+            <div id="dashboardView" class="dashboard">
+                <div class="section-title">
+                    <h2>My Workflows</h2>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                </div>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: rgba(79, 70, 229, 0.1); color: #4f46e5;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <h3 class="card-title">Email Automation</h3>
+                        <p class="card-desc">Sends automated emails based on user actions</p>
+                        <div class="card-actions">
+                            <span class="text-xs">Last run: 2 hours ago</span>
+                            <button class="btn btn-outline">Edit</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: rgba(14, 159, 110, 0.1); color: #0e9f6e;">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <h3 class="card-title">E-commerce Sync</h3>
+                        <p class="card-desc">Syncs orders between Shopify and database</p>
+                        <div class="card-actions">
+                            <span class="text-xs">Last run: 5 minutes ago</span>
+                            <button class="btn btn-outline">Edit</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <span class="badge badge-warning">Paused</span>
+                        </div>
+                        <h3 class="card-title">Notification System</h3>
+                        <p class="card-desc">Sends push notifications for important events</p>
+                        <div class="card-actions">
+                            <span class="text-xs">Last run: 2 days ago</span>
+                            <button class="btn btn-outline">Edit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title mt-20">
+                    <h2>Available Tools</h2>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-sort"></i> Sort
+                    </button>
+                </div>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                                <i class="fas fa-database"></i>
+                            </div>
+                        </div>
+                        <h3 class="card-title">Database Operations</h3>
+                        <p class="card-desc">Create, read, update and delete database records</p>
+                        <div class="card-actions">
+                            <span class="text-xs">200+ uses</span>
+                            <button class="btn btn-outline">Add to workflow</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: rgba(236, 72, 153, 0.1); color: #ec4899;">
+                                <i class="fas fa-code"></i>
+                            </div>
+                        </div>
+                        <h3 class="card-title">Webhook</h3>
+                        <p class="card-desc">Trigger workflows from external applications</p>
+                        <div class="card-actions">
+                            <span class="text-xs">150+ uses</span>
+                            <button class="btn btn-outline">Add to workflow</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: rgba(20, 188, 168, 0.1); color: #14bca8;">
+                                <i class="fab fa-pi"></i>
+                            </div>
+                            <span class="badge badge-pi">Pi Network</span>
+                        </div>
+                        <h3 class="card-title">Pi Network Integration</h3>
+                        <p class="card-desc">Connect with Pi blockchain and user authentication</p>
+                        <div class="card-actions">
+                            <span class="text-xs">Pi Ecosystem</span>
+                            <button class="btn btn-outline">Add to workflow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Editor View -->
+            <div id="editorView" class="workflow-editor">
+                <div class="editor-header">
+                    <div>
+                        <h3>New Workflow</h3>
+                        <p class="text-sm">Create your automation workflow</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button class="btn btn-primary" id="executeWorkflowBtn">
+                            <i class="fas fa-play"></i> Execute
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <div class="node-palette">
+                        <div class="node-category">
+                            <div class="node-category-title" style="color: var(--trigger-color);">
+                                <i class="fas fa-play-circle"></i> Triggers
+                            </div>
+                            <div class="node-item" draggable="true" data-type="schedule">
+                                <i class="fas fa-clock"></i> Schedule
+                            </div>
+                            <div class="node-item" draggable="true" data-type="webhook">
+                                <i class="fas fa-code-branch"></i> Webhook
+                            </div>
+                            <div class="node-item" draggable="true" data-type="manual">
+                                <i class="fas fa-hand-pointer"></i> Manual
+                            </div>
+                        </div>
+                        
+                        <div class="node-category">
+                            <div class="node-category-title" style="color: var(--app-color);">
+                                <i class="fas fa-plug"></i> App Integrations
+                            </div>
+                            <div class="node-item" draggable="true" data-type="slack">
+                                <i class="fab fa-slack"></i> Slack
+                            </div>
+                            <div class="node-item" draggable="true" data-type="email">
+                                <i class="fas fa-envelope"></i> Email
+                            </div>
+                            <div class="node-item" draggable="true" data-type="http">
+                                <i class="fas fa-globe"></i> HTTP Request
+                            </div>
+                            <div class="node-item" draggable="true" data-type="pi-auth">
+                                <i class="fab fa-pi"></i> Pi Authentication
+                            </div>
+                        </div>
+                        
+                        <div class="node-category">
+                            <div class="node-category-title" style="color: var(--data-color);">
+                                <i class="fas fa-database"></i> Data Manipulation
+                            </div>
+                            <div class="node-item" draggable="true" data-type="code">
+                                <i class="fas fa-code"></i> Code
+                            </div>
+                            <div class="node-item" draggable="true" data-type="set">
+                                <i class="fas fa-edit"></i> Set
+                            </div>
+                            <div class="node-item" draggable="true" data-type="date">
+                                <i class="fas fa-calendar-alt"></i> Date & Time
+                            </div>
+                        </div>
+                        
+                        <div class="node-category">
+                            <div class="node-category-title" style="color: var(--logic-color);">
+                                <i class="fas fa-code-branch"></i> Logic & Flow
+                            </div>
+                            <div class="node-item" draggable="true" data-type="if">
+                                <i class="fas fa-question-circle"></i> IF
+                            </div>
+                            <div class="node-item" draggable="true" data-type="switch">
+                                <i class="fas fa-exchange-alt"></i> Switch
+                            </div>
+                            <div class="node-item" draggable="true" data-type="wait">
+                                <i class="fas fa-hourglass-half"></i> Wait
+                            </div>
+                        </div>
+                        
+                        <div class="node-category">
+                            <div class="node-category-title" style="color: var(--file-color);">
+                                <i class="fas fa-file"></i> File & Format
+                            </div>
+                            <div class="node-item" draggable="true" data-type="csv">
+                                <i class="fas fa-table"></i> CSV
+                            </div>
+                            <div class="node-item" draggable="true" data-type="json">
+                                <i class="fas fa-brackets-curly"></i> JSON
+                            </div>
+                        </div>
+                        
+                        <div class="node-category">
+                            <div class="node-category-title" style="color: var(--utility-color);">
+                                <i class="fas fa-tools"></i> Utility
+                            </div>
+                            <div class="node-item" draggable="true" data-type="noop">
+                                <i class="fas fa-circle-notch"></i> No Operation
+                            </div>
+                            <div class="node-item" draggable="true" data-type="rename">
+                                <i class="fas fa-signature"></i> Rename
+                            </div>
+                            <div class="node-item" draggable="true" data-type="pi-payment">
+                                <i class="fas fa-money-bill-wave"></i> Pi Payment
+                            </div>
+                        </div>
+                    </div>
+                    <div class="canvas-container">
+                        <div class="canvas" id="workflowCanvas">
+                            <!-- Nodes will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pi SDK -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script>
+        // Initialize Pi SDK
+        const Pi = window.Pi;
+        let piSDK = null;
+
+        // Store workflow data
+        let workflowNodes = [];
+        let workflowConnections = [];
+        let currentNodeId = 1;
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we have a stored session
+            const userSession = localStorage.getItem('piUserSession');
+            if (userSession) {
+                try {
+                    const sessionData = JSON.parse(userSession);
+                    if (sessionData.authenticated && sessionData.expires > Date.now()) {
+                        // User is already authenticated
+                        document.getElementById('loginScreen').style.display = 'none';
+                        document.getElementById('appContainer').style.display = 'flex';
+                        updateUIWithUserData(sessionData.user);
+                    }
+                } catch (e) {
+                    console.error('Error parsing stored session', e);
+                    localStorage.removeItem('piUserSession');
+                }
+            }
+
+            // Initialize Pi SDK
+            try {
+                piSDK = Pi.init({ version: "2.0" });
+                console.log('Pi SDK initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize Pi SDK', error);
+            }
+
+            // Initialize node dragging
+            initNodeDragging();
+        });
+
+        // Simple login functionality
+        document.querySelector('.login-btn').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+            } else {
+                alert('Please enter both email and password');
+            }
+        });
+
+        // Pi Network login
+        document.getElementById('piLoginBtn').addEventListener('click', function() {
+            authenticateWithPi();
+        });
+
+        // Connect Pi button
+        document.getElementById('connectPiBtn').addEventListener('click', function() {
+            document.getElementById('piConnectModal').style.display = 'flex';
+        });
+
+        // Close modal
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            document.getElementById('piConnectModal').style.display = 'none';
+        });
+
+        // Modal option clicks
+        document.getElementById('piAuthOption').addEventListener('click', function() {
+            addNodeToCanvas('pi-auth');
+            document.getElementById('piConnectModal').style.display = 'none';
+        });
+
+        document.getElementById('piPaymentOption').addEventListener('click', function() {
+            addNodeToCanvas('pi-payment');
+            document.getElementById('piConnectModal').style.display = 'none';
+        });
+
+        document.getElementById('piDataOption').addEventListener('click', function() {
+            addNodeToCanvas('pi-data');
+            document.getElementById('piConnectModal').style.display = 'none';
+        });
+
+        // New Workflow button functionality
+        document.getElementById('newWorkflowBtn').addEventListener('click', function() {
+            document.getElementById('dashboardView').style.display = 'none';
+            document.getElementById('editorView').style.display = 'flex';
+        });
+
+        // Execute Workflow button
+        document.getElementById('executeWorkflowBtn').addEventListener('click', function() {
+            executeWorkflow();
+        });
+
+        // Initialize node dragging from palette
+        function initNodeDragging() {
+            const nodeItems = document.querySelectorAll('.node-item');
+            
+            nodeItems.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    const nodeType = this.getAttribute('data-type');
+                    e.dataTransfer.setData('nodeType', nodeType);
+                });
+            });
+
+            const canvas = document.getElementById('workflowCanvas');
+            
+            canvas.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+            
+            canvas.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const nodeType = e.dataTransfer.getData('nodeType');
+                if (nodeType) {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    addNodeToCanvas(nodeType, x, y);
+                }
+            });
+        }
+
+        // Make nodes draggable
+        function makeNodeDraggable(node) {
+            const header = node.querySelector('.node-header');
+            
+            header.addEventListener('mousedown', function(e) {
+                const startX = e.clientX;
+                const startY = e.clientY;
+                const startLeft = parseInt(node.style.left || '0');
+                const startTop = parseInt(node.style.top || '0');
+                
+                function onMouseMove(e) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    node.style.left = (startLeft + dx) + 'px';
+                    node.style.top = (startTop + dy) + 'px';
+                }
+                
+                function onMouseUp() {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                    
+                    // Update node position in data model
+                    const nodeId = node.getAttribute('data-node-id');
+                    const nodeIndex = workflowNodes.findIndex(n => n.id === nodeId);
+                    if (nodeIndex !== -1) {
+                        workflowNodes[nodeIndex].x = parseInt(node.style.left || '0');
+                        workflowNodes[nodeIndex].y = parseInt(node.style.top || '0');
+                    }
+                }
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+        }
+
+        // Add a node to the canvas
+        function addNodeToCanvas(nodeType, x = 100, y = 100) {
+            const canvas = document.getElementById('workflowCanvas');
+            const nodeId = 'node-' + currentNodeId++;
+            
+            let nodeHtml = '';
+            let nodeTitle = '';
+            let nodeCategory = '';
+            
+            switch(nodeType) {
+                case 'schedule':
+                    nodeTitle = 'Schedule Trigger';
+                    nodeCategory = 'trigger';
+                    nodeHtml = `
+                        <div class="node node-trigger" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-clock"></i> Schedule</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Frequency</label>
+                                    <select>
+                                        <option value="minutes">Minutes</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                        <option value="weeks">Weeks</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Interval</label>
+                                    <input type="number" value="1" min="1">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'webhook':
+                    nodeTitle = 'Webhook Trigger';
+                    nodeCategory = 'trigger';
+                    nodeHtml = `
+                        <div class="node node-trigger" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-code-branch"></i> Webhook</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Webhook URL</label>
+                                    <input type="text" value="/webhook/${Math.random().toString(36).substring(2, 10)}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>HTTP Method</label>
+                                    <select>
+                                        <option value="POST">POST</option>
+                                        <option value="GET">GET</option>
+                                        <option value="PUT">PUT</option>
+                                    </select>
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'manual':
+                    nodeTitle = 'Manual Trigger';
+                    nodeCategory = 'trigger';
+                    nodeHtml = `
+                        <div class="node node-trigger" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-hand-pointer"></i> Manual</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <p class="text-sm">Run this workflow manually</p>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'slack':
+                    nodeTitle = 'Slack Integration';
+                    nodeCategory = 'app';
+                    nodeHtml = `
+                        <div class="node node-app" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fab fa-slack"></i> Slack</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Action</label>
+                                    <select>
+                                        <option value="sendMessage">Send Message</option>
+                                        <option value="readChannel">Read Channel</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Channel</label>
+                                    <input type="text" placeholder="#general">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'email':
+                    nodeTitle = 'Email Integration';
+                    nodeCategory = 'app';
+                    nodeHtml = `
+                        <div class="node node-app" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-envelope"></i> Email</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Action</label>
+                                    <select>
+                                        <option value="send">Send Email</option>
+                                        <option value="read">Read Emails</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <input type="text" placeholder="recipient@example.com">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'http':
+                    nodeTitle = 'HTTP Request';
+                    nodeCategory = 'app';
+                    nodeHtml = `
+                        <div class="node node-app" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-globe"></i> HTTP Request</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>URL</label>
+                                    <input type="text" placeholder="https://api.example.com/data">
+                                </div>
+                                <div class="form-group">
+                                    <label>Method</label>
+                                    <select>
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="DELETE">DELETE</option>
+                                    </select>
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'pi-auth':
+                    nodeTitle = 'Pi Authentication';
+                    nodeCategory = 'app';
+                    nodeHtml = `
+                        <div class="node node-pi" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fab fa-pi"></i> Pi Auth</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Scopes</label>
+                                    <select>
+                                        <option value="username">Username only</option>
+                                        <option value="username,payments">Username & Payments</option>
+                                        <option value="username,payments,wallet_address">Full access</option>
+                                    </select>
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'code':
+                    nodeTitle = 'Code';
+                    nodeCategory = 'data';
+                    nodeHtml = `
+                        <div class="node node-data" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-code"></i> Code</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Language</label>
+                                    <select>
+                                        <option value="javascript">JavaScript</option>
+                                        <option value="python">Python</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Code</label>
+                                    <textarea rows="4" placeholder="// Write your code here"></textarea>
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'set':
+                    nodeTitle = 'Set';
+                    nodeCategory = 'data';
+                    nodeHtml = `
+                        <div class="node node-data" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-edit"></i> Set</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Property Name</label>
+                                    <input type="text" placeholder="e.g., username">
+                                </div>
+                                <div class="form-group">
+                                    <label>Value</label>
+                                    <input type="text" placeholder="e.g., {{ $json.input }}">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'date':
+                    nodeTitle = 'Date & Time';
+                    nodeCategory = 'data';
+                    nodeHtml = `
+                        <div class="node node-data" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-calendar-alt"></i> Date & Time</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Operation</label>
+                                    <select>
+                                        <option value="format">Format Date</option>
+                                        <option value="calculate">Calculate Date</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Format</label>
+                                    <input type="text" value="YYYY-MM-DD HH:mm:ss">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'if':
+                    nodeTitle = 'IF Condition';
+                    nodeCategory = 'logic';
+                    nodeHtml = `
+                        <div class="node node-logic" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-question-circle"></i> IF</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Condition</label>
+                                    <input type="text" placeholder="e.g., {{ $json.value }} > 10">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                    <div class="output-point" style="background-color: var(--danger); margin-top: 5px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'switch':
+                    nodeTitle = 'Switch';
+                    nodeCategory = 'logic';
+                    nodeHtml = `
+                        <div class="node node-logic" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-exchange-alt"></i> Switch</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Value to compare</label>
+                                    <input type="text" placeholder="e.g., {{ $json.status }}">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                    <div class="output-point" style="background-color: var(--info); margin-top: 5px;"></div>
+                                    <div class="output-point" style="background-color: var(--warning); margin-top: 5px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'wait':
+                    nodeTitle = 'Wait';
+                    nodeCategory = 'logic';
+                    nodeHtml = `
+                        <div class="node node-logic" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-hourglass-half"></i> Wait</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Wait for</label>
+                                    <input type="number" value="1" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label>Unit</label>
+                                    <select>
+                                        <option value="seconds">Seconds</option>
+                                        <option value="minutes">Minutes</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                    </select>
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'csv':
+                    nodeTitle = 'CSV';
+                    nodeCategory = 'file';
+                    nodeHtml = `
+                        <div class="node node-file" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-table"></i> CSV</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Operation</label>
+                                    <select>
+                                        <option value="toJson">CSV to JSON</option>
+                                        <option value="fromJson">JSON to CSV</option>
+                                    </select>
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'json':
+                    nodeTitle = 'JSON';
+                    nodeCategory = 'file';
+                    nodeHtml = `
+                        <div class="node node-file" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-brackets-curly"></i> JSON</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Operation</label>
+                                    <select>
+                                        <option value="parse">Parse JSON</option>
+                                        <option value="stringify">Stringify JSON</option>
+                                    </select>
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'noop':
+                    nodeTitle = 'No Operation';
+                    nodeCategory = 'utility';
+                    nodeHtml = `
+                        <div class="node node-utility" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-circle-notch"></i> No Operation</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <p class="text-sm">Does nothing (placeholder)</p>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'rename':
+                    nodeTitle = 'Rename';
+                    nodeCategory = 'utility';
+                    nodeHtml = `
+                        <div class="node node-utility" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-signature"></i> Rename</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>From</label>
+                                    <input type="text" placeholder="oldFieldName">
+                                </div>
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <input type="text" placeholder="newFieldName">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'pi-payment':
+                    nodeTitle = 'Pi Payment';
+                    nodeCategory = 'utility';
+                    nodeHtml = `
+                        <div class="node node-pi" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-money-bill-wave"></i> Pi Payment</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Amount (π)</label>
+                                    <input type="number" value="1" min="0.1" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label>Memo</label>
+                                    <input type="text" placeholder="Payment for services">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'pi-data':
+                    nodeTitle = 'Pi Blockchain Data';
+                    nodeCategory = 'utility';
+                    nodeHtml = `
+                        <div class="node node-pi" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                            <div class="node-header">
+                                <span><i class="fas fa-database"></i> Pi Blockchain</span>
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="node-content">
+                                <div class="form-group">
+                                    <label>Operation</label>
+                                    <select>
+                                        <option value="read">Read Data</option>
+                                        <option value="write">Write Data</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Key</label>
+                                    <input type="text" placeholder="data_key">
+                                </div>
+                                <div class="node-io">
+                                    <div class="input-point"></div>
+                                    <div class="output-point"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            // Add node to canvas
+            canvas.insertAdjacentHTML('beforeend', nodeHtml);
+            
+            // Make new node draggable
+            const newNode = document.querySelector(`[data-node-id="${nodeId}"]`);
+            makeNodeDraggable(newNode);
+            
+            // Add to workflow data model
+            workflowNodes.push({
+                id: nodeId,
+                type: nodeType,
+                category: nodeCategory,
+                title: nodeTitle,
+                x: x,
+                y: y,
+                config: {}
+            });
+        }
+
+        // Execute the workflow
+        function executeWorkflow() {
+            if (workflowNodes.length === 0) {
+                alert('Please add at least one node to the workflow');
+                return;
+            }
+            
+            // Find start nodes (triggers)
+            const startNodes = workflowNodes.filter(node => node.category === 'trigger');
+            
+            if (startNodes.length === 0) {
+                alert('Please add a trigger node to start the workflow');
+                return;
+            }
+            
+            // Simulate workflow execution
+            alert(`Executing workflow with ${workflowNodes.length} nodes starting with ${startNodes[0].title}`);
+            
+            // In a real implementation, this would send the workflow to the backend for execution
+            // For now, we'll just simulate execution
+            simulateWorkflowExecution();
+        }
+        
+        // Simulate workflow execution with visual feedback
+        function simulateWorkflowExecution() {
+            const nodes = document.querySelectorAll('.node');
+            let delay = 0;
+            
+            // Reset all nodes
+            nodes.forEach(node => {
+                node.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+            });
+            
+            // Animate each node with a delay
+            workflowNodes.forEach((node, index) => {
+                const nodeElement = document.querySelector(`[data-node-id="${node.id}"]`);
+                
+                setTimeout(() => {
+                    nodeElement.style.boxShadow = '0 0 0 2px var(--success)';
+                    
+                    // Reset after a moment
+                    setTimeout(() => {
+                        nodeElement.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+                    }, 500);
+                }, delay);
+                
+                delay += 800;
+            });
+            
+            // Show completion message
+            setTimeout(() => {
+                alert('Workflow executed successfully!');
+            }, delay);
+        }
+
+        // Pi Network Authentication Function
+        function authenticateWithPi() {
+            if (!piSDK) {
+                alert('Pi SDK not initialized. Please try again.');
+                return;
+            }
+
+            // Define the scopes you need
+            const scopes = ['username', 'payments', 'wallet_address'];
+            
+            // Authenticate the user
+            piSDK.auth
+            .then(authResult => {
+                console.log('Pi authentication successful', authResult);
+                
+                // Store the session
+                const sessionData = {
+                    authenticated: true,
+                    expires: Date.now() + (7 * 24 * 60 * 60 * 1000), // 7 days from now
+                    user: {
+                        uid: authResult.user.uid,
+                        username: authResult.user.username,
+                        accessToken: authResult.accessToken
+                    }
+                };
+                
+                localStorage.setItem('piUserSession', JSON.stringify(sessionData));
+                
+                // Update UI and show main app
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+                updateUIWithUserData(sessionData.user);
+            })
+            .catch(error => {
+                console.error('Pi authentication failed', error);
+                alert('Authentication with Pi Network failed. Please try again.');
+            });
+        }
+
+        function updateUIWithUserData(user) {
+            // Update user section in sidebar
+            const userAvatar = document.querySelector('.user-avatar');
+            const userName = document.querySelector('.user-name');
+            
+            userAvatar.textContent = user.username ? user.username.charAt(0).toUpperCase() : 'P';
+            userName.textContent = user.username || 'Pi User';
+            
+            // Add Pi badge to user role
+            const userRole = document.querySelector('.user-role');
+            userRole.innerHTML = 'Pro Plan <span class="badge badge-pi">Pi Verified</span>';
+        }
+
+        // Example function to create a Pi payment
+        function createPiPayment(amount, memo, callback) {
+            if (!piSDK) {
+                console.error('Pi SDK not initialized');
+                return;
+            }
+            
+            const paymentData = {
+                amount: amount,
+                memo: memo,
+                metadata: { 
+                    workflowId: 'current-workflow-id' 
+                }
+            };
+            
+            piSDK.createPayment(paymentData)
+                .then(payment => {
+                    console.log('Payment created', payment);
+                    if (callback) callback(null, payment);
+                })
+                .catch(error => {
+                    console.error('Payment error', error);
+                    if (callback) callback(error, null);
+                });
+        }
+
+        // Example function to authenticate with Pi
+        function piAuthenticate(scopes, callback) {
+            if (!piSDK) {
+                console.error('Pi SDK not initialized');
+                return;
+            }
+            
+            piSDK.authenticate(scopes)
+                .then(authResult => {
+                    console.log('Authentication successful', authResult);
+                    if (callback) callback(null, authResult);
+                })
+                .catch(error => {
+                    console.error('Authentication error', error);
+                    if (callback) callback(error, null);
+                });
+        }
+    </script>
+</body>
+</html>
