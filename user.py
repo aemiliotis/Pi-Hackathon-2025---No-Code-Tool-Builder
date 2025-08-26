@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from src.models.user import User
-from src.models.tool import db # Import db from a common location
+from user import User
+from tool import db # Import db from a common location
 
 user_bp = Blueprint("user", __name__)
 
