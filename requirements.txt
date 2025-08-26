@@ -36,7 +36,7 @@ alembic==1.11.1  # Migrations
 
 ### Machine Learning Core ###
 ##tensorflow==2.20.0
-tflite-runtime==2.10.0
+##tflite-runtime==2.10.0
 protobuf==3.19.6  # TF compatibility
 onnxruntime==1.15.1
 torch==2.0.1  # PyTorch support
