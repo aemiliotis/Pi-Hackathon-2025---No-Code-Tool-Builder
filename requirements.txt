@@ -4,9 +4,10 @@ MarkupSafe==3.0.2
 typing_extensions==4.14.0
 
 ### Core Web Framework ###
-pyjwt==2.7.0
+requests==2.31.0
+pyjwt==2.8.0
 flask==2.2.5
-flask-cors==3.0.10
+flask-cors==4.0.0
 werkzeug==2.2.3  # Flask 2.2.5 compatibility
 jinja2==3.0.3
 itsdangerous==2.0.1
@@ -73,7 +74,7 @@ python-dotenv==1.0.0  # Env vars
 psutil==5.9.5  # System monitoring
 tqdm==4.65.0  # Progress bars
 loguru==0.7.0  # Logging
-gunicorn==20.1.0  # Production server
+gunicorn==21.2.0  # Production server
 gevent==22.10.2  # Async workers
 
 ### Testing & Debugging ###
