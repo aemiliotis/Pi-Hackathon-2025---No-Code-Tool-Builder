@@ -727,6 +727,240 @@
 .input-point:hover, .output-point:hover {
     transform: scale(1.2);
 }
+        /* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: 100vh;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        order: 2;
+    }
+    
+    .main-content {
+        width: 100%;
+        order: 1;
+    }
+    
+    .sidebar .menu {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    
+    .sidebar .menu-item {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 10px 15px;
+    }
+    
+    .user-section {
+        display: none;
+    }
+    
+    .header {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+    }
+    
+    .search-bar {
+        width: 100%;
+        order: 2;
+        margin-top: 10px;
+    }
+    
+    .header-actions {
+        order: 1;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .header-actions .btn {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .dashboard {
+        padding: 15px;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .editor-content {
+        flex-direction: column;
+    }
+    
+    .node-palette {
+        width: 100%;
+        height: 200px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .node-category {
+        flex: 0 0 auto;
+        margin-bottom: 15px;
+        margin-right: 15px;
+        width: 200px;
+    }
+    
+    .node-category-title {
+        white-space: nowrap;
+    }
+    
+    .node-items-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 5px;
+    }
+    
+    .node-item {
+        flex: 0 0 auto;
+        width: 120px;
+        margin-bottom: 0;
+    }
+    
+    .canvas-container {
+        height: 400px;
+    }
+    
+    .node {
+        width: 180px;
+        font-size: 12px;
+    }
+    
+    .node-header {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    .node-content {
+        padding: 8px;
+    }
+    
+    .form-group {
+        margin-bottom: 8px;
+    }
+    
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+        padding: 5px;
+        font-size: 11px;
+    }
+    
+    /* Mobile menu toggle */
+    .mobile-menu-toggle {
+        display: block;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background-color: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    
+    /* Touch-friendly button sizes */
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .node-item {
+        min-height: 44px;
+    }
+    
+    /* Prevent zoom on input focus */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Very small devices */
+@media (max-width: 360px) {
+    .header-actions .btn {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    
+    .btn span {
+        display: none;
+    }
+    
+    .btn i {
+        margin-right: 0;
+    }
+    
+    .node {
+        width: 160px;
+    }
+}
+
+/* Mobile landscape orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        width: 100%;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .node-header {
+        cursor: default;
+    }
+    
+    .node-header:active {
+        cursor: default;
+    }
+    
+    .input-point, .output-point {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Increase touch targets */
+    .menu-item {
+        min-height: 44px;
+    }
+    
+    .card {
+        min-height: 120px;
+    }
+}
     </style>
 </head>
 <body>
