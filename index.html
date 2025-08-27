@@ -672,6 +672,61 @@
         .pi-login-btn:hover {
             background-color: var(--pi-secondary);
         }
+        .node-moving {
+    opacity: 0.8;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) !important;
+    z-index: 1000 !important;
+}
+
+.canvas-container {
+    position: relative;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path d="M0 10L20 10M10 0L10 20" stroke="%23e2e8f0" stroke-width="0.5"/></svg>');
+    overflow: auto;
+    transition: background-color 0.3s ease;
+}
+
+.node {
+    position: absolute;
+    width: 200px;
+    background-color: var(--card-bg);
+    border: 2px solid #cbd5e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    cursor: move;
+    user-select: none;
+    z-index: 10;
+    transition: box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.node-header {
+    padding: 8px 12px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    cursor: grab;
+    user-select: none;
+}
+
+.node-header:active {
+    cursor: grabbing;
+}
+
+.input-point, .output-point {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    cursor: crosshair;
+    transition: transform 0.2s ease;
+}
+
+.input-point:hover, .output-point:hover {
+    transform: scale(1.2);
+}
     </style>
 </head>
 <body>
