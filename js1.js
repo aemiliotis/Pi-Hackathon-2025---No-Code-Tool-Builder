@@ -1,4 +1,3 @@
-<script>
     // Initialize Pi SDK
     const Pi = window.Pi;
     let piSDK = null;
@@ -504,4 +503,3 @@
                 if (callback) callback(error, null);
             });
     }
-</script>
