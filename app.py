@@ -8,8 +8,9 @@ import jwt
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-import psycopg2
-from psycopg2.extras import RealDictCursor
+import psycopg
+from psycopg import sql
+from psycopg.rows import dict_row
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Initialize Flask app
@@ -33,12 +34,13 @@ def get_db_connection():
     """Create and return a database connection"""
     try:
         # For Neon DB or PostgreSQL
-        conn = psycopg2.connect(
+        conn = psycopg.connect(
             host=os.environ.get('DB_HOST', 'localhost'),
-            database=os.environ.get('DB_NAME', 'pi_nocode_builder'),
+            dbname=os.environ.get('DB_NAME', 'pi_nocode_builder'),
             user=os.environ.get('DB_USER', 'postgres'),
             password=os.environ.get('DB_PASSWORD', 'password'),
-            port=os.environ.get('DB_PORT', '5432')
+            port=os.environ.get('DB_PORT', '5432'),
+            row_factory=dict_row  # This gives you dictionary-like rows
         )
         return conn
     except Exception as e:
