@@ -244,7 +244,7 @@ def register():
     
     conn = get_db_connection()
     if not conn:
-        return jsonify({'error': 'Database connection failed'),\ 500
+        return jsonify({'error': 'Database connection failed'}),\ 500
         
     try:
         with conn.cursor() as cur:
