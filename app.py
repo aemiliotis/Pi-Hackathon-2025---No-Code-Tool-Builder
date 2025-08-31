@@ -654,7 +654,7 @@ def update_workflow(workflow_id):
     except Exception as e:
         app.logger.error(f"Failed to update workflow: {e}")
         conn.rollback()
-极       return jsonify({'error': 'Failed to update workflow'}), 500
+        return jsonify({'error': 'Failed to update workflow'}), 500
     finally:
         conn.close()
 
@@ -895,7 +895,7 @@ def get_tools():
             'category': 'data',
             'icon': 'fas fa-code',
             'config': {}
-极       },
+        },
         {
             'id': 'set',
             'name': 'Set',
