@@ -819,7 +819,7 @@ def get_executions():
             return jsonify([dict(e) for e in executions])
             
     except Exception as e:
-        app.logger.error(f"Failed to get executions: {e")
+        app.logger.error(f"Failed to get executions: {e}")
         return jsonify({'error': 'Failed to get executions'}), 500
     finally:
         conn.close()
