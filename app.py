@@ -237,7 +237,7 @@ def register():
     password = data.get('password')
     
     if not email or not password:
-        return jsonify({'error': 'Email and password are required极}), 400
+        return jsonify({'error': 'Email and password are required'}), 400
     
     if len(password) < 8:
         return jsonify({'error': 'Password must be at least 8 characters'}), 400
