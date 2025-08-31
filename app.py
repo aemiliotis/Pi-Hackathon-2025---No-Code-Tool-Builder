@@ -466,7 +466,7 @@ def pi_payment():
             })
             
             if not payment_data:
-                return jsonify({'error': 'Payment creation failed'),\ 500
+                return jsonify({'error': 'Payment creation failed'}), 500
             
             return jsonify({
                 'success': True,
