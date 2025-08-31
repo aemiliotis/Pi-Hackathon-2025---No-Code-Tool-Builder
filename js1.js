@@ -1075,3 +1075,609 @@ function addNodeToCanvas(nodeType, x = 100, y = 100) {
                         <p class="text-sm">Run this workflow manually</p>
                         <div class="node-io">
                             <div class
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'slack': {
+    title: 'Slack Integration',
+    category: 'app',
+    icon: 'fab fa-slack',
+    html: `
+        <div class="node node-app" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fab fa-slack"></i> Slack</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>Action</label>
+                    <select>
+                        <option value="sendMessage">Send Message</option>
+                        <option value="readChannel">Read Channel</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Channel</label>
+                    <input type="text" placeholder="#general">
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'email': {
+    title: 'Email Integration',
+    category: 'app',
+    icon: 'fas fa-envelope',
+    html: `
+        <div class="node node-app" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fas fa-envelope"></i> Email</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>Action</label>
+                    <select>
+                        <option value="send">Send Email</option>
+                        <option value="read">Read Emails</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="text" placeholder="recipient@example.com">
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'http': {
+    title: 'HTTP Request',
+    category: 'app',
+    icon: 'fas fa-globe',
+    html: `
+        <div class="node node-app" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fas fa-globe"></i> HTTP Request</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" placeholder="https://api.example.com/data">
+                </div>
+                <div class="form-group">
+                    <label>Method</label>
+                    <select>
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'pi-auth': {
+    title: 'Pi Authentication',
+    category: 'app',
+    icon: 'fab fa-pi',
+    html: `
+        <div class="node node-pi" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fab fa-pi"></i> Pi Auth</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>Scopes</label>
+                    <select>
+                        <option value="username">Username only</option>
+                        <option value="username,payments">Username & Payments</option>
+                        <option value="username,payments,wallet_address">Full access</option>
+                    </select>
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'code': {
+    title: 'Code',
+    category: 'data',
+    icon: 'fas fa-code',
+    html: `
+        <div class="node node-data" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fas fa-code"></i> Code</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>Language</label>
+                    <select>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Code</label>
+                    <textarea rows="4" placeholder="// Write your code here"></textarea>
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'set': {
+    title: 'Set',
+    category: 'data',
+    icon: 'fas fa-edit',
+    html: `
+        <div class="node node-data" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fas fa-edit"></i> Set</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class
+                            <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'date': {
+    title: 'Date & Time',
+    category: 'data',
+    icon: 'fas fa-calendar-alt',
+    html: `
+        <div class="node node-data" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fas fa-calendar-alt"></i> Date & Time</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>Operation</label>
+                    <select>
+                        <option value="format">Format Date</option>
+                        <option value="calculate">Calculate Date</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Format</label>
+                    <input type="text" value="YYYY-MM-DD HH:mm:ss">
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'if': {
+    title: 'IF Condition',
+    category: 'logic',
+    icon: 'fas fa-question-circle',
+    html: `
+        <div class="node node-logic" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fas fa-question-circle"></i> IF</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>Condition</label>
+                    <input type="text" placeholder="e.g., {{ $json.value }} > 10">
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                    <div class="output-point" style="background-color: var(--danger); margin-top: 5px;"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'switch': {
+    title: 'Switch',
+    category: 'logic',
+    icon: 'fas fa-exchange-alt',
+    html: `
+        <div class="node node-logic" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+            <div class="node-header">
+                <span><i class="fas fa-exchange-alt"></i> Switch</span>
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="node-content">
+                <div class="form-group">
+                    <label>Value to compare</label>
+                    <input type="text" placeholder="e.g., {{ $json.status }}">
+                </div>
+                <div class="node-io">
+                    <div class="input-point"></div>
+                    <div class="output-point"></div>
+                    <div class="output-point" style="background-color: var(--info); margin-top: 5px;"></div>
+                    <div class="output-point" style="background-color: var(--warning); margin-top: 5px;"></div>
+                </div>
+            </div>
+        </div>
+    `
+},
+'wait': {
+    title: 'Wait',
+    category: 'logic',
+    icon: 'fas fa-hourglass-half',
+    html: `
+        <div class
+                            <div class="node-content">
+                        <div class="form-group">
+                            <label>Wait for</label>
+                            <input type="number" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <select>
+                                <option value="seconds">Seconds</option>
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                            </select>
+                        </div>
+                        <div class="node-io">
+                            <div class="input-point"></div>
+                            <div class="output-point"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        'csv': {
+            title: 'CSV',
+            category: 'file',
+            icon: 'fas fa-table',
+            html: `
+                <div class="node node-file" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                    <div class="node-header">
+                        <span><i class="fas fa-table"></i> CSV</span>
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
+                    <div class="node-content">
+                        <div class="form-group">
+                            <label>Operation</label>
+                            <select>
+                                <option value="toJson">CSV to JSON</option>
+                                <option value="fromJson">JSON to CSV</option>
+                            </select>
+                        </div>
+                        <div class="node-io">
+                            <div class="input-point"></div>
+                            <div class="output-point"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        'json': {
+            title: 'JSON',
+            category: 'file',
+            icon: 'fas fa-brackets-curly',
+            html: `
+                <div class="node node-file" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                    <div class="node-header">
+                        <span><i class="fas fa-brackets-curly"></i> JSON</span>
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
+                    <div class="node-content">
+                        <div class="form-group">
+                            <label>Operation</label>
+                            <select>
+                                <option value="parse">Parse JSON</option>
+                                <option value="stringify">Stringify JSON</option>
+                            </select>
+                        </div>
+                        <div class="node-io">
+                            <div class="input-point"></div>
+                            <div class="output-point"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        'noop': {
+            title: 'No Operation',
+            category: 'utility',
+            icon: 'fas fa-circle-notch',
+            html: `
+                <div class="node node-utility" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                    <div class="node-header">
+                        <span><i class="fas fa-circle-notch"></i> No Operation</span>
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
+                    <div class="node-content">
+                        <p class="text-sm">Does nothing (placeholder)</p>
+                        <div class="node-io">
+                            <div class="input-point"></div>
+                            <div class="output-point"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        'rename': {
+            title: 'Rename',
+            category: 'utility',
+            icon: 'fas fa-signature',
+            html: `
+                <div class="node node-utility" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                    <div class="node-header">
+                        <span><i class="fas fa-signature"></i> Rename</span>
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
+                    <div class="node-content">
+                        <div class="form-group">
+                            <label>From</label>
+                            <input type="text" placeholder="oldFieldName">
+                        </div>
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="text" placeholder="newFieldName">
+                        </div>
+                        <div class="node-io">
+                            <div class="input-point"></div>
+                            <div class="output-point"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        'pi-payment': {
+            title: 'Pi Payment',
+            category: 'utility',
+            icon: 'fas fa-money-bill-wave',
+            html: `
+                <div class="node node-pi" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                    <div class="node-header">
+                        <span><i class="fas fa-money-bill-wave"></i> Pi Payment</span>
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
+                    <div class="node-content">
+                        <div class="form-group">
+                            <label>Amount (π)</label>
+                            <input type="number" value="1" min="0.1" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Memo</label>
+                            <input type="text" placeholder="Payment for services">
+                        </div>
+                        <div class="node-io">
+                            <div class="input-point"></div>
+                            <div class="output-point"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        'pi-data': {
+            title: 'Pi Blockchain Data',
+            category: 'utility',
+            icon: 'fas fa-database',
+            html: `
+                <div class="node node-pi" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                    <div class="node-header">
+                        <span><i class="fas fa-database"></i> Pi Blockchain</span>
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
+                    <div class="node-content">
+                        <div class="form-group">
+                            <label>Operation</label>
+                            <select>
+                                <option value="read">Read Data</option>
+                                <option value="write">Write Data</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Key</label>
+                            <input type="text" placeholder="data_key">
+                        </div>
+                        <div class="node-io">
+                            <div class="input-point"></div>
+                            <div class="output-point"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+    };
+    
+    // Get node template
+    const template = nodeTemplates[nodeType];
+    if (template) {
+        nodeHtml = template.html;
+        nodeTitle = template.title;
+        nodeCategory = template.category;
+        nodeIcon = template.icon;
+    } else {
+        // Default node template
+        nodeHtml = `
+            <div class="node node-utility" data-node-id="${nodeId}" style="left: ${x}px; top: ${y}px;">
+                <div class="node-header">
+                    <span><i class="fas fa-cube"></i> ${nodeType}</span>
+                    <i class="fas fa-grip-vertical"></i>
+                </div>
+                <div class="node-content">
+                    <p class="text-sm">Node configuration</p>
+                    <div class="node-io">
+                        <div class="input-point"></div>
+                        <div class="output-point"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        nodeTitle = nodeType;
+        nodeCategory = 'utility';
+        nodeIcon = 'fas fa-cube';
+    }
+    
+    // Add node to canvas
+    canvas.insertAdjacentHTML('beforeend', nodeHtml);
+    
+    // Make new node draggable
+    const newNode = document.querySelector(`[data-node-id="${nodeId}"]`);
+    makeNodeDraggable(newNode);
+    
+    // Add to workflow data model
+    workflowNodes.push({
+        id: nodeId,
+        type: nodeType,
+        category: nodeCategory,
+        title: nodeTitle,
+        icon: nodeIcon,
+        x: x,
+        y: y,
+        config: {}
+    });
+    
+    // Auto-scroll on mobile if needed
+    if (isMobile) {
+        newNode.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    }
+    
+    return newNode;
+}
+
+// Pi Network Authentication Function
+function authenticateWithPi() {
+    if (!piSDK) {
+        alert('Pi SDK not initialized. Please try again.');
+        return;
+    }
+
+    // Define the scopes you need
+    const scopes = ['username', 'payments', 'wallet_address'];
+    
+    // Authenticate the user
+    piSDK.auth
+    .then(authResult => {
+        console.log('Pi authentication successful', authResult);
+        
+        // Store the session
+        const sessionData = {
+            authenticated: true,
+            expires: Date.now() + (7 * 24 * 60 * 60 * 1000), // 7 days from now
+            user: {
+                uid: authResult.user.uid,
+                username: authResult.user.username,
+                accessToken: authResult.accessToken
+            }
+        };
+        
+        localStorage.setItem('piUserSession', JSON.stringify(sessionData));
+        
+        // Update UI and show main app
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'flex';
+        updateUIWithUserData(sessionData.user);
+        loadSampleData();
+    })
+    .catch(error => {
+        console.error('Pi authentication failed', error);
+        alert('Authentication with Pi Network failed. Please try again.');
+    });
+}
+
+function updateUIWithUserData(user) {
+    // Update user section in sidebar
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const userRole = document.getElementById('userRole');
+    
+    userAvatar.textContent = user.username ? user.username.charAt(0).toUpperCase() : 'P';
+    userName.textContent = user.username || 'Pi User';
+    userRole.innerHTML = 'Pro Plan <span class="badge badge-pi">Pi Verified</span>';
+}
+
+// Example function to create a Pi payment
+function createPiPayment(amount, memo, callback) {
+    if (!piSDK) {
+        console.error('Pi SDK not initialized');
+        if (callback) callback('Pi SDK not initialized', null);
+        return;
+    }
+    
+    const paymentData = {
+        amount: amount,
+        memo: memo,
+        metadata: { 
+            workflowId: 'current-workflow-id' 
+        }
+    };
+    
+    piSDK.createPayment(paymentData)
+        .then(payment => {
+            console.log('Payment created', payment);
+            if (callback) callback(null, payment);
+        })
+        .catch(error => {
+            console.error('Payment error', error);
+            if (callback) callback(error, null);
+        });
+}
+
+// Example function to authenticate with Pi
+function piAuthenticate(scopes, callback) {
+    if (!piSDK) {
+        console.error('Pi SDK not initialized');
+        if (callback) callback('Pi SDK not initialized', null);
+        return;
+    }
+    
+    piSDK.authenticate(scopes)
+        .then(authResult => {
+            console.log('Authentication successful', authResult);
+            if (callback) callback(null, authResult);
+        })
+        .catch(error => {
+            console.error('Authentication error', error);
+            if (callback) callback(error, null);
+        });
+}
+
+// Helper function to detect touch devices
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+}
+
+// Handle device orientation changes
+window.addEventListener('orientationchange', function() {
+    // Refresh the view on orientation change
+    setTimeout(function() {
+        window.dispatchEvent(new Event('resize'));
+    }, 300);
+});
