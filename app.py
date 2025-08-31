@@ -607,7 +607,7 @@ def update_workflow(workflow_id):
                 (workflow_id, session['user_id'])
             )
             if not cur.fetchone():
-                return jsonify({'error': 'Workflow not found'),\ 404
+                return jsonify({'error': 'Workflow not found'}), 404
             
             # Build update query based on provided fields
             update_fields = []
